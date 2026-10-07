@@ -1,0 +1,53 @@
+:root { color-scheme: light dark; --background:light-dark(#ffffff,#15191d); --foreground:light-dark(#1c2830,#e8edf0); --card:light-dark(#f6f8f9,#20262c); --card-foreground:var(--foreground); --muted:light-dark(#e7ecef,#303840); --muted-foreground:light-dark(#596772,#b1bec7); --border:light-dark(#d7dfe4,#39454f); --viz-series-1:light-dark(#21776c,#73c8bc); --viz-series-2:light-dark(#6770a5,#a4ade4); --font-size-base:16px; }
+* { box-sizing:border-box; }
+body { margin:0; padding:28px 24px; background:var(--background); color:var(--foreground); font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+main { max-width:1100px; margin:auto; }
+h2 { font-size:1.8rem; font-weight:500; margin:0 0 20px; }
+h3 { font-size:1rem; font-weight:500; }
+a { color:var(--viz-series-1); text-underline-offset:3px; }
+button,input,select,textarea { font:inherit; }
+.viz-controls { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin:12px 0; }
+.viz-controls>.form-label { flex:1 1 210px; }
+.form-label { display:block; font-size:.875rem; font-weight:500; min-width:0; }
+.form-control,.form-select { display:block; width:100%; min-width:0; color:var(--foreground); background:var(--background); border:1px solid var(--border); border-radius:5px; padding:8px 10px; margin-top:5px; font-weight:400; }
+textarea { resize:vertical; }
+.form-check { display:inline-flex; align-items:center; gap:7px; font-size:.875rem; }
+.form-check-input { accent-color:var(--viz-series-1); }
+.viz-row { display:flex; flex-wrap:wrap; align-items:center; gap:12px; }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:7px 10px; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--foreground); text-decoration:none; font-size:.875rem; cursor:pointer; }
+.btn:hover { background:var(--muted); }
+.btn-ghost { background:transparent; border-color:transparent; }
+.text-small { font-size:.875rem; }
+.text-muted { color:var(--muted-foreground); }
+.cursor-interaction { cursor:pointer; }
+:focus-visible { outline:2px solid var(--viz-series-1); outline-offset:3px; }
+[hidden] { display:none !important; }
+.bach-listening { margin-top:18px; }
+.bach-recording { margin:12px 0; }
+.bach-player:not(:empty) { margin:14px 0; max-width:640px; }
+.bach-player iframe { display:block; width:100%; aspect-ratio:16/9; min-height:200px; border:0; }
+@media(max-width:480px){body{padding:20px 12px}.viz-controls{gap:8px}.viz-controls>.form-label{flex-basis:100%}}
+
+#bach-atlas{color:var(--foreground)}
+#bach-atlas .bach-branch{margin:8px 0}
+#bach-atlas .bach-children{margin:8px 0 10px 14px;padding-left:12px;border-left:1px solid var(--border)}
+#bach-atlas summary{padding:8px 0;overflow-wrap:anywhere}
+#bach-atlas .bach-branch>summary{font-weight:500}
+#bach-atlas .bach-branch-actions{display:inline-flex;vertical-align:middle;align-items:center;gap:0;margin-right:4px}
+#bach-atlas .bach-branch-actions>.btn{padding:2px;min-width:22px;min-height:24px;margin:0}
+@media(pointer:coarse){#bach-atlas .bach-branch-actions>.btn{min-width:44px;min-height:44px}}
+#bach-atlas .bach-total{font-weight:400;color:var(--muted-foreground);margin-left:8px}
+#bach-atlas .bach-work{margin:3px 0}
+#bach-atlas .bach-work>summary{font-weight:400}
+#bach-atlas .bach-work[data-level="1"]>summary{background:color-mix(in srgb,var(--viz-series-1) 10%,transparent)}
+#bach-atlas .bach-work[data-level="2"]>summary{background:color-mix(in srgb,var(--viz-series-2) 7%,transparent)}
+#bach-atlas .bach-meta{padding:2px 0 10px 18px;overflow-wrap:anywhere}
+#bach-atlas .bach-meta p{margin:6px 0}
+#bach-atlas .bach-journal{display:grid;gap:12px;margin:16px 0}
+#bach-atlas .bach-journal h3{margin:0}
+#bach-atlas .bach-stars{display:inline-flex;align-items:center;gap:0}
+#bach-atlas .bach-stars .bach-star{padding:3px 5px;background:transparent;color:var(--foreground);border-color:transparent;margin:0}
+#bach-atlas .bach-meter{display:inline-block;width:76px;height:5px;background:var(--muted);margin-left:10px;vertical-align:middle}
+#bach-atlas .bach-meter span{display:block;height:100%;background:var(--viz-series-1)}
+#bach-atlas .bach-method{margin-top:20px;border-top:1px solid var(--border)}
+@media(max-width:480px){#bach-atlas .bach-children{margin-left:5px;padding-left:8px}#bach-atlas .bach-meter{display:none}}

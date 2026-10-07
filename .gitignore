@@ -1,0 +1,6 @@
+bach-listening-journal*.json
+*-backup.json
+node_modules/
+.DS_Store
+fragment.html
+base.css

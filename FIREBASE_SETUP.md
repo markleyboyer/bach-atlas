@@ -4,7 +4,7 @@ Project: `bachatlas-253a3`. Code is staged on `firebase-sync`; main remains the 
 
 1. In Firebase Project settings > General, add a Web app named Bach Atlas (or use an existing web app). Copy its public `firebaseConfig` values into `firebase-config.js`. No Analytics or Firebase Hosting is required. Do not share service-account keys.
 2. In Authentication > Sign-in method, enable Google and choose the support email. In Authentication > Settings > Authorized domains add `markleyboyer.github.io` (hostname only). Add any later custom hostname as well.
-3. Create Cloud Firestore in production mode. Choose the location carefully; it cannot be changed later. Replace `REPLACE_WITH_YOUR_GOOGLE_EMAIL` in `firestore.rules` with the exact Google account email you will sign in with; publish these rules in Firestore > Rules. The placeholder deliberately denies all journal access until replaced.
+3. Create Cloud Firestore in production mode. Choose the location carefully; it cannot be changed later. The included `firestore.rules` restrict access to the verified Google account `mark@bateshollow.com`, within that account’s own user path. Publish these rules in Firestore > Rules.
 4. Merge this branch into main once configuration is ready. Enable GitHub Pages from main / root if it is not already enabled. Open https://markleyboyer.github.io/bach-atlas/ on both devices and sign in with the same Google account.
 5. Export the current local journal first. After sign-in, use **Copy local journal to cloud · missing works only** to copy local entries. Existing cloud works are preserved. Local and cloud journals remain separate; signing out restores the original local journal.
 

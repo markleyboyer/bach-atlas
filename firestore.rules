@@ -4,7 +4,7 @@ service cloud.firestore {
     function owner(uid) {
       return request.auth != null && request.auth.uid == uid
         && request.auth.token.email_verified == true
-        && request.auth.token.email == 'REPLACE_WITH_YOUR_GOOGLE_EMAIL';
+        && request.auth.token.email == 'mark@bateshollow.com';
     }
     match /users/{uid}/entries/{work} {
       allow read: if owner(uid);

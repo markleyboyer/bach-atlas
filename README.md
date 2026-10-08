@@ -41,3 +41,7 @@ Preview from a local HTTP server, for example `python -m http.server 8080`. Open
 The 1,548 catalogue rows include versions, reconstructions, historical appendix entries, and separately listed parts. They are not 1,548 distinct authenticated compositions. Catalogue authenticity and survival labels reflect what the public source flags, not a fresh scholarly assessment. Composition dates are approximate in many cases. Stars and diamonds are editorial priorities.
 
 All of Bach coverage is incomplete. Entries without a matched performance explicitly say so. When a version is linked to a recording of the base BWV number, that relationship is labelled rather than presented as an exact match.
+
+## Optional private cloud journal
+
+Firebase preparation lives on `firebase-sync`. See [FIREBASE_SETUP.md](FIREBASE_SETUP.md) for configuration and end-to-end checks. Sync is inactive until the public web config and owner-only Firestore rules are completed. Run `node tests/journal-sync.cjs` for journal regression and cloud-bridge checks.

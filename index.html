@@ -20,6 +20,7 @@
     <button class="btn" type="button" id="bach-export">Back up journal</button>
     <label class="form-label">Restore journal<input class="form-control" id="bach-import" type="file" accept=".json,application/json"></label>
   </div>
+  <div class="viz-row bach-sync"><button class="btn" type="button" id="bach-signin">Sign in with Google</button><button class="btn" type="button" id="bach-signout" hidden>Sign out</button><button class="btn" type="button" id="bach-copy-local" hidden>Copy local journal to cloud · missing works only</button></div><p class="text-small" id="bach-cloud-status" aria-live="polite">Cloud sync awaits Firebase setup. Local journal still works.</p>
   <p class="text-small" id="bach-save-status" aria-live="polite"></p>
   <div id="bach-tree" aria-label="Nested catalogue of Bach works"></div>
   <details class="bach-method"><summary class="cursor-interaction">Scope, dates, and significance</summary>
@@ -30,4 +31,4 @@
     <p class="text-small">Forces: org = organ; kbd = keyboard; hpd = harpsichord; vn = violin; vc = cello; viol = viola da gamba; fl = flute; ob = oboe; bn = bassoon; str = strings; bc = basso continuo; vv = voices; ch = choir; orch = orchestra.</p>
   </details>
 </div>
-</main><script src="catalogue.js"></script><script src="recordings.js"></script><script src="app.js"></script></body></html>
+</main><script src="catalogue.js"></script><script src="recordings.js"></script><script src="firebase-config.js"></script><script src="app.js"></script><script type="module" src="cloud.js"></script></body></html>

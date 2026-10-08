@@ -51,3 +51,20 @@ textarea { resize:vertical; }
 #bach-atlas .bach-meter span{display:block;height:100%;background:var(--viz-series-1)}
 #bach-atlas .bach-method{margin-top:20px;border-top:1px solid var(--border)}
 @media(max-width:480px){#bach-atlas .bach-children{margin-left:5px;padding-left:8px}#bach-atlas .bach-meter{display:none}}
+
+/* Quiet neutral panels distinguish filters, catalogue levels, and journal tools. */
+:root{--bach-gray-1:light-dark(#f7f7f7,#1e1e1e);--bach-gray-2:light-dark(#ededed,#282828);--bach-gray-3:light-dark(#e3e3e3,#323232)}
+.bach-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px}
+.bach-header h2{margin:0}
+.bach-sync{justify-content:flex-end;margin-left:auto;max-width:420px}
+.bach-filters{background:var(--bach-gray-1);padding:8px 16px;border:1px solid var(--border);border-radius:8px}
+.bach-legend{margin-top:16px}
+#bach-atlas .bach-branch{background:var(--bach-gray-2);border-radius:6px;padding:0 10px}
+#bach-atlas .bach-children .bach-branch{background:var(--bach-gray-1)}
+#bach-atlas .bach-children .bach-children .bach-branch{background:var(--bach-gray-3)}
+#bach-atlas .bach-work{background:var(--background);border-radius:4px;padding:0 8px}
+#bach-atlas .bach-journal{background:var(--bach-gray-1);padding:14px;border-radius:6px}
+#bach-atlas .bach-method{background:var(--bach-gray-1);padding:6px 16px;border:1px solid var(--border);border-radius:8px}
+.bach-backup{margin-top:20px;background:var(--bach-gray-2);padding:8px 16px;border-radius:8px}
+.bach-backup .viz-controls>.form-label{flex:0 1 320px}
+@media(max-width:600px){.bach-header{flex-wrap:wrap}.bach-sync{max-width:100%}.bach-filters{padding:6px 12px}#bach-atlas .bach-branch{padding:0 6px}}

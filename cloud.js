@@ -23,14 +23,31 @@ async function boot() {
   let user = null,unsubscribe = null,generation = 0,ready = false;
   const entriesRef = uid => collection(db,'users',uid,'entries');
   const entryRef = (uid,bwv) => doc(entriesRef(uid),encodeURIComponent(bwv));
+  let buffer=Object.create(null),flushTimer=null;
+  const draftKey=uid=>'bach-cloud-drafts-v1-'+uid;
+  function persist(){try{localStorage.setItem(draftKey(user.uid),JSON.stringify(buffer));return true}catch{return false}}
+  function flush(){
+    clearTimeout(flushTimer);flushTimer=null;if(!user||!ready)return;
+    const uid=user.uid,session=generation;
+    for(const [bwv,patch] of Object.entries(buffer)){
+      const sent={...patch};
+      setDoc(entryRef(uid,bwv),sent,{merge:true}).then(()=>{
+        if(session!==generation)return;
+        const current=buffer[bwv];if(current){for(const key of Object.keys(sent))if(current[key]===sent[key])delete current[key];if(!Object.keys(current).length)delete buffer[bwv];persist()}
+        if(!Object.keys(buffer).length)status('Synced · '+user.email);
+      }).catch(error=>{if(session===generation)status('Cloud save failed: '+error.message+'. Draft retained here; export a backup.');});
+    }
+  }
   window.BACH_CLOUD = {write(bwv,patch) {
     if (!user || !ready) { status('Cloud journal is not ready.');return; }
-    const session = generation;
-    status('Saving to cloud…');
-    setDoc(entryRef(user.uid,bwv),patch,{merge:true}).catch(error => {
-      if (session===generation) status('Cloud save failed: '+error.message+'. Export a journal backup to preserve your edits.');
-    });
+    buffer[bwv]={...buffer[bwv],...patch};status('Saving changes…');
+    const stored=persist();clearTimeout(flushTimer);
+    if(!stored||'rating' in patch||'listened' in patch)flush();
+    else flushTimer=setTimeout(flush,600);
   }};
+  window.addEventListener('pagehide',flush);
+  window.addEventListener('online',flush);
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flush()});
   ui('signin').addEventListener('click',async()=>{
     try {await signInWithPopup(auth,new GoogleAuthProvider());}
     catch(error) {status('Could not sign in: '+error.message);}
@@ -38,7 +55,7 @@ async function boot() {
   ui('signout').addEventListener('click',async()=>{
     // Wait for queued writes before changing the active journal.
     ui('signout').disabled=true;
-    try {await dbSDK.waitForPendingWrites(db);await signOut(auth);}
+    try {flush();await dbSDK.waitForPendingWrites(db);await signOut(auth);}
     catch(error) {status('Sign-out paused: '+error.message+'. Keep this tab open or export a backup.');}
     finally {ui('signout').disabled=false;}
   });
@@ -63,10 +80,12 @@ async function boot() {
     finally {ui('copy-local').disabled=false;}
   });
   onAuthStateChanged(auth,next=>{
+    clearTimeout(flushTimer);flushTimer=null;buffer=Object.create(null);
     generation++;if(unsubscribe)unsubscribe();unsubscribe=null;user=next;ready=false;
     ui('signin').hidden=!!next;ui('signout').hidden=!next;ui('copy-local').hidden=!next;
     ui('copy-local').disabled=true;
     if (!next) {window.BACH_JOURNAL.stop();status('Signed out · Journal saves only in this browser.');return;}
+    try{const saved=JSON.parse(localStorage.getItem(draftKey(next.uid))||'{}');if(saved&&typeof saved==='object'&&!Array.isArray(saved))buffer=saved}catch{}
     window.BACH_JOURNAL.start();
     ui('save-status').textContent='Cloud journal · Export a backup whenever you wish.';
     status('Loading cloud journal for '+next.email+'…');
@@ -75,8 +94,9 @@ async function boot() {
       if(session!==generation)return;
       const entries=Object.create(null);
       snapshot.forEach(row=>{entries[decodeURIComponent(row.id)]=row.data()});
-      window.BACH_JOURNAL.apply(entries);ready=true;ui('copy-local').disabled=false;
-      status(snapshot.metadata.hasPendingWrites?'Changes waiting to sync · Keep this browser data.':snapshot.metadata.fromCache?'Offline/cached journal · Cloud connection not confirmed.':'Synced · '+next.email);
+      for(const [bwv,patch] of Object.entries(buffer))entries[bwv]={...entries[bwv],...patch};
+      const initial=!ready;window.BACH_JOURNAL.apply(entries);ready=true;if(initial&&Object.keys(buffer).length)flush();ui('copy-local').disabled=false;
+      status(Object.keys(buffer).length?'Changes waiting to sync · Draft saved on this device.':snapshot.metadata.hasPendingWrites?'Changes waiting to sync · Keep this browser data.':snapshot.metadata.fromCache?'Offline/cached journal · Cloud connection not confirmed.':'Synced · '+next.email);
     },error=>{
       if(session!==generation)return;
       ready=false;window.BACH_JOURNAL.start();ui('copy-local').disabled=true;

@@ -66,5 +66,7 @@ textarea { resize:vertical; }
 #bach-atlas .bach-journal{background:var(--bach-gray-1);padding:14px;border-radius:6px}
 #bach-atlas .bach-method{background:var(--bach-gray-1);padding:6px 16px;border:1px solid var(--border);border-radius:8px}
 .bach-backup{margin-top:20px;background:var(--bach-gray-2);padding:8px 16px;border-radius:8px}
-.bach-backup .viz-controls>.form-label{flex:0 1 320px}
+.bach-backup .viz-controls>.form-label{display:flex;align-items:center;gap:12px;flex:0 1 440px}
+.bach-backup .form-control{margin-top:0;flex:1;min-width:0}
+.bach-backup .btn{min-height:40px}
 @media(max-width:600px){.bach-header{flex-wrap:wrap}.bach-sync{max-width:100%}.bach-filters{padding:6px 12px}#bach-atlas .bach-branch{padding:0 6px}}
